@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch Pad</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 960px;
+            height: 960px;
+            border: 1px solid black;
+        }
+
+        .grid-item {
+            flex: 1 0 auto;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s;
+        }
+
+        button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <button id="gridSizeButton">Set Grid Size</button>
+    <div id="container"></div>
+
+    <script>
+        // Initialize the grid size
+        let gridSize = 16;
+
+        // Create the grid when the page loads
+        createGrid(gridSize);
+
+        // Function to create the grid
+        function createGrid(size) {
+            const container = document.getElementById('container');
+            container.innerHTML = ''; // Clear previous grid
+
+            // Calculate the size of each grid square
+            let squareSize = 960 / size;
+
+            // Create grid squares
+            for (let i = 0; i < size * size; i++) {
+                const div = document.createElement('div');
+                div.classList.add('grid-item');
+                div.style.width = `${squareSize}px`;
+                div.style.height = `${squareSize}px`;
+
+                // Add hover effect
+                div.addEventListener('mouseenter', changeColor);
+
+                container.appendChild(div);
+            }
+        }
+
+        // Function to change the color on hover
+        function changeColor(event) {
+            // Optionally, randomize colors
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            event.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        // Button to set grid size
+        const button = document.getElementById('gridSizeButton');
+        button.addEventListener('click', setGridSize);
+
+        // Function to set grid size
+        function setGridSize() {
+            let newSize = parseInt(prompt("Enter the number of squares per side (max 100):"));
+
+            // Validate input
+            if (newSize > 0 && newSize <= 100) {
+                createGrid(newSize);
+            } else {
+                alert("Please enter a number between 1 and 100.");
+            }
+        }
+    </script>
+</body>
+</html>
